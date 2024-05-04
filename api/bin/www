@@ -5,16 +5,26 @@
 // Modificado para localização (inglês para português).
 //
 
-var app = require('../app');
-var debug = require('debug')('api:server');
-var http = require('http');
+var app = require('../app')
+var dbConnect = require('../db/connect')
+var debug = require('debug')('api:server')
+var http = require('http')
 
-var port = normalizePort(process.env.PORT || '9000');
-app.set('port', port);
+var port = normalizePort(process.env.PORT || '9000')
+app.set('port', port)
 
-var server = http.createServer(app);
+var server = http.createServer(app)
 
-server.listen(port);
+// Conecta ao banco de dados e então inicializa o
+// servidor HTTP.
+dbConnect().then(() => {
+  debug('Banco de dados conectado!')
+  server.listen(port);
+}).catch((err) => {
+  console.error(err)
+  process.exit(1)
+})
+
 server.on('error', onError);
 server.on('listening', onListening);
 
