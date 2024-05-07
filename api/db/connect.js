@@ -1,12 +1,7 @@
+const { config } = require('../config')
 const mongoose = require('mongoose')
 
-const { username, pwd, host, name, authSource } = {
-  username: 'comno',
-  pwd: 'inseguro',
-  host: 'localhost',
-  name: 'comno',
-  authSource: 'test'
-}
+const { username, pass, host, name, authSource } = config.db
 
 const URI = `mongodb://${host}:27017/${name}` +
   `?retryWrites=true&w=majority` +
@@ -14,16 +9,15 @@ const URI = `mongodb://${host}:27017/${name}` +
 
 /**
  * Conecta ao banco de dados.
- * 
+ *
  * @async
- * @return {*} 
+ * @return {*}
  */
 function connect() {
   return mongoose.connect(URI, {
     user: username,
-    pass: pwd,
-    dbName: name,
-    authSource: authSource ?? 'admin'
+    pass: pass,
+    authSource: authSource
   })
 }
 
