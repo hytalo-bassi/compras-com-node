@@ -23,7 +23,7 @@ cd api/
 yarn start &
 cd ../website
 yarn start &
-``` 
+```
 
 #### Depuração
 
@@ -32,4 +32,13 @@ ser depurado (`DEBUG=*` mostrará tudo que chamou `debug()`).
 ```bash
 cd api/
 DEBUG=* yarn start
+```
+
+#### Docker
+
+Para facilitar o processo de desenvolvimento e garantir reproducibilidade e facilidade de configurações, usaremos o Docker para configurar e expor os serviços.
+
+Para iniciar todos os serviços (__web__, __api__ e __db__) basta escrever:
+```bash
+docker compose up
 ```
