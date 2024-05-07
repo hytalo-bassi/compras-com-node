@@ -1,0 +1,9 @@
+FROM node:latest
+
+WORKDIR /usr/src/comno/website
+COPY website /usr/src/comno/website/.
+
+RUN yarn install
+
+CMD ["yarn", "start" ]
+EXPOSE 3000

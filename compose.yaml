@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  website:
+    build:
+      dockerfile: ./docker/Dockerfile.website
+    volumes:
+      - ./website:/usr/src/app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - net
+    depends_on:
+      - api
+
+  api:
+    build:
+      dockerfile: ./docker/Dockerfile.api
+    volumes:
+      - ./api:/usr/src/app
+    ports:
+      - "9000:9000"
+    networks:
+      - net
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mongo
+      - DB_USER=root
+      - DB_PASS=rootpassword
+      - DB_NAME=comno
+    depends_on:
+      - mongo
+
+  mongo:
+    build:
+      dockerfile: ./docker/Dockerfile.mongo
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    networks:
+      - net
+    volumes:
+      - mongo_data:/data/db
+
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  mongo_data:
